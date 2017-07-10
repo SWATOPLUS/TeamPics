@@ -50,13 +50,15 @@ namespace TeamPics
             //    clientId: "",
             //    clientSecret: "");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            app.UseTwitterAuthentication(
+               consumerKey: "tuc9HcIy2Sm9bBPwPpr4N3QRo",
+               consumerSecret: "r74DeNBfMdqbEnJ59h2Cnc2RfYpXWnj6AFsrqUHiW52wPRjfga");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "449998988714961",
+               appSecret: "766f5c62a2102e9b73fe4956a72f872a");
+
+            app.UseVkontakteAuthentication("6107853", "Qd3E5H2anAVyib5NU8qA", "");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
