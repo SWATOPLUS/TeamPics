@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Collections.Generic;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -356,7 +357,7 @@ namespace TeamPics.Controllers
                     // Если у пользователя нет учетной записи, то ему предлагается создать ее
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { UserName = loginInfo.DefaultUserName });
             }
         }
 
@@ -380,7 +381,7 @@ namespace TeamPics.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, EmailConfirmed=true, Email=model.UserName+"@localhost"};
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -391,7 +392,12 @@ namespace TeamPics.Controllers
                         return RedirectToLocal(returnUrl);
                     }
                 }
-                AddErrors(result);
+                var list = new List<string>();
+                foreach (var x in result.Errors) {
+                    if (x.Substring(0, 5) == "Адрес") continue;
+                    list.Add(x);
+                }
+                AddErrors(new IdentityResult(list));
             }
 
             ViewBag.ReturnUrl = returnUrl;

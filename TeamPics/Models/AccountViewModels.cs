@@ -6,8 +6,10 @@ namespace TeamPics.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Адрес электронной почты")]
-        public string Email { get; set; }
+        [Display(Name = "Имя пользователя")]
+        [RegularExpression("[\\w]+", ErrorMessage = "Разрешены только латинский буквы, цифры и символ подчеркивания")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "Следует указать пароль от 3 до 20 символов")]
+        public string UserName { get; set; }
     }
 
     public class ExternalLoginListViewModel
